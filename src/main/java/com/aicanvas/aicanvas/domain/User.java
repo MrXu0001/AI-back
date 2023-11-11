@@ -35,6 +35,10 @@ public class User implements Serializable {
     */
     private String status;
     /**
+     * 用户类型，0为用户端，1为管理员端
+     */
+    private String userType;
+    /**
     * 创建时间
     */
     @TableField(fill = FieldFill.INSERT)

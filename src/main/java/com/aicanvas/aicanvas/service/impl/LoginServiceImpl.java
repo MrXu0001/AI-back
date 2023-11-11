@@ -42,6 +42,7 @@ public class LoginServiceImpl implements LoginService {
         //使用userId生成token
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         User user = loginUser.getUser();
+        String userType = user.getUserType();
         //status为1时表示账号停用
         if (user.getStatus().equals("1")) {
             throw new RuntimeException("账号已被锁定,请联系管理员");
@@ -51,7 +52,7 @@ public class LoginServiceImpl implements LoginService {
         // authenticate存入redis,将userId存入是因为上面的jwt也是用userId生成的，你等等可以通过jwt获得登录用户的id，然后去redis获取loginUser
         redisTemplate.opsForValue().set("login:" + userId, loginUser);
         //把token响应给前端
-        return R.ok().put("code", 200).put("msg","登录成功").put("token", jwt);
+        return R.ok().put("code", 200).put("msg","登录成功").put("token", jwt).put("userType", userType);
     }
 
     @Override
